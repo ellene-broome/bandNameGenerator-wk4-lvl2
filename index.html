@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Band Name Generator</title>
+
+    <!-- LINK TAILWIND -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    .fade-in {
+      animation: fadeIn 0.6s ease-in;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+  <div class="text-center space-y-6 p-6 bg-gray-800 rounded-lg shadow-xl w-full max-w-md">
+    <h1 class="text-4xl font-bold text-pink-400">Band Name Generator</h1>
+    <p class="text-2xl font-semibold">Click the button to reveal your new band name.</p>
+
+    <div id="band-name" class="text-2xl font-semibold text-green-300 h-16 flex items-center justify-center">
+      <!-- BAND NAME SHOWS HERE  -->
+    </div>
+
+    <button id="generate-btn" class="px-6 py-3 bg-pink-500 text-white rounded hover:bg-pink-600 transition duration-300">
+      💀 Generate Band Name 💀
+    </button>
+
+    <!-- SAVE FAVORITES -->
+    <div id="favorites" class="mt-6">
+      <button id="favorites-btn" class="hidden mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+        ⭐ Save This Name ⭐
+    </button>
+      <h2 class="text-xl font-bold mt-6 text-yellow-400">Saved Band Names</h2>
+      <ul id="saved-names" class="mt-2 text-left text-sm space-y-1 list-disc list-inside text-yellow-200">
+      </ul>
+      <button
+        id="clear-favorites-btn"
+        class="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 hidden">
+        🧹 Clear All
+    </button>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    const bandNameAdjective = [
+      "Electric", "Funky", "Groovy", "Wild", "Silent", "Cosmic",
+      "Rebel", "Dream", "Echo", "Vibrant", "Mystic", "Neon", "Golden",
+      "Silver", "Crimson", "Blue", "Black", "White", "Radiant", "Epic", "Majestic",
+      "Thunderous", "Celestial", "Ethereal", "Luminous", "Shadowy", "Radiant", "Harmonic",
+    ];
+
+    const bandNameNouns = [
+      "Cats", "Dogs", "Wolves", "Rabbits", "Stars", "Dreamers", "Warriors",
+      "Knights", "Pirates", "Angels", "Demons", "Ghosts", "Shadows",
+      "Dragons", "Phoenixes", "Titans", "Legends", "Rebels", "Outlaws", "Voyagers", 
+    ];
+
+    let currentBandName = "";
+
+    function getbandNameAdjective() {
+      const randomIndex1 = Math.floor(Math.random() * bandNameAdjective.length);
+      return bandNameAdjective[randomIndex1];
+    }
+
+    function getbandNameNouns() {
+      const randomIndex2 = Math.floor(Math.random() * bandNameNouns.length);
+      return bandNameNouns[randomIndex2];
+    }
+
+    function generateBandName() {
+      const part1 = getbandNameAdjective();
+      const part2 = getbandNameNouns();
+      currentBandName = `🔥 The ${part1} ${part2} 🔥`;
+
+      const bandNameDiv = document.getElementById("band-name");
+      bandNameDiv.textContent = currentBandName;
+      bandNameDiv.classList.remove("fade-in");
+      void bandNameDiv.offsetWidth; // resets animation
+      bandNameDiv.classList.add("fade-in");
+
+      // SHOW THE SAVE BUTTON
+      document.getElementById("favorites-btn").classList.remove("hidden");
+    }
+
+    function saveBandName() {
+  if (currentBandName) {
+    const list = document.createElement("li"); 
+    list.textContent = currentBandName;
+    document.getElementById("saved-names").appendChild(list);
+
+    // SHOW THE "Clear All" BUTTON
+    document.getElementById("clear-favorites-btn").classList.remove("hidden");
+  }
+}
+
+
+    document.getElementById("generate-btn").addEventListener("click", generateBandName);
+    document.getElementById("favorites-btn").addEventListener("click", saveBandName);
+  
+  // HANDLE THE "Clear All" BUTTON
+document.getElementById("clear-favorites-btn").addEventListener("click", function () {
+  const savedList = document.getElementById("saved-names");
+  savedList.innerHTML = ""; // Clears all saved names
+  document.getElementById("clear-favorites-btn").classList.add("hidden"); // & Hides the button again
+});
+
+  </script>
+</body>
+</html>
